@@ -101,7 +101,7 @@ To streamline future deployments, we will:
 ## deployment procedure
 
 ```markdown
-![Deployment Architecture](deploy.png)
+![Deployment Architecture](/deploy.png)
 
 
 
