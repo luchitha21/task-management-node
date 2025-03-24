@@ -35,7 +35,7 @@ export const uploadFileToS3 = async (signedUrl: string, file: Express.Multer.Fil
         return `https://${env.s3Bucket}.s3.amazonaws.com/uploads/${file.originalname}`;
     } catch (error) {
         logger.error(error, "failed to upload file to S3")
-        throw new Error("failed to upload to S3")
+        throw error
     }
 };
 
@@ -49,6 +49,6 @@ export const deleteFileFromS3 = async (fileKey: string) => {
         logger.info({ fileKey }, "File deleted from S3 successfully");
     } catch (error) {
         logger.error(error, "failed to delete file from S3");
-        throw new Error("failed to delete file from S3");
+        throw error
     }
 };
