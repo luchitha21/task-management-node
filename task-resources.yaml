@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  BucketName:
+    Type: String
+    Description: "The name of the S3 bucket"
+    MinLength: 3
+    MaxLength: 63
+    AllowedPattern: "^[a-zA-Z0-9.-]+$"
+    ConstraintDescription: "Must be a valid S3 bucket name."
+  
+  TableName:
+    Type: String
+    Description: "The name of the DynamoDB table"
+    MinLength: 3
+    MaxLength: 255
+    AllowedPattern: "^[a-zA-Z0-9_-]+$"
+    ConstraintDescription: "Must be a valid DynamoDB table name."
+
+Resources:
+  TaskFilesBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Ref BucketName
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  TaskTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      TableName: !Ref TableName
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+        - AttributeName: "status"
+          AttributeType: "S"
+        - AttributeName: "createdAt"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "StatusIndex"
+          KeySchema:
+            - AttributeName: "status"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: "CreatedAtIndex"
+          KeySchema:
+            - AttributeName: "createdAt"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+
+Outputs:
+  TaskTableName:
+    Description: "Name of the DynamoDB table"
+    Value: !Ref TaskTable
+
+  StatusIndexName:
+    Description: "Index for querying by status"
+    Value: "StatusIndex"
+
+  CreatedAtIndexName:
+    Description: "Index for querying by creation date"
+    Value: "CreatedAtIndex"
+
+  TaskFilesBucketName:
+    Description: "S3 Bucket for storing task files"
+    Value: !Ref TaskFilesBucket
