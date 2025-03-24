@@ -4,13 +4,15 @@ This Repository contains the Task Service to do crud operations with tasks and c
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file.
+# Environment Variables for the Project
 
-DYNAMODB_TABLE= table name
+To run this project, you need to add the following environment variables to your `.env` file:
+
+```env
+DYNAMODB_TABLE=your_table_name
 PORT=3000
-S3_BUCKET = your bucket name
-
-aws credentials and secrets won't be saved in the .env file, s
+S3_BUCKET=your_bucket_name
+```
 
 ## Installation
 
@@ -52,6 +54,5 @@ AWS credentials should be saved in the `~/.aws` directory:
 [default]
 aws_access_key_id = YOUR_ACCESS_KEY
 aws_secret_access_key = YOUR_SECRET_KEY
-region = us-east-1
 
 
