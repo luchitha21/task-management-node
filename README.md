@@ -98,10 +98,5 @@ To expose the application to the internet, we will:
 To streamline future deployments, we will:
 - Use **GitHub Actions** or AWS CodePipeline for CI/CD.
 
-## deployment procedure
-
-```markdown
-![Deployment Architecture](/deploy.png)
-
 
 
